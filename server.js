@@ -6,9 +6,11 @@ const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const path = require('path')
 
-
 //env config
 dotenv.config();
+
+//rest object
+const app = express();
 
 //router import
 const userRoutes = require("./routes/userRoutes");
@@ -24,22 +26,19 @@ app.get("*", function(req,res){
 //mongodb connection
 connectDB();
 
-//rest objecct
-const app = express();
-
-//middelwares
+//middlewares
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
 //routes
-
 app.use("/", indexRoutes);
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/blog", blogRoutes);
 
 // Port
 const PORT = process.env.PORT || 8080;
+
 //listen
 app.listen(PORT, () => {
   console.log(
